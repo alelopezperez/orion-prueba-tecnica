@@ -1,0 +1,33 @@
+version: '3.4'
+services:
+  api:
+    build:
+      context: ./orion-project-challenge
+      dockerfile: Dockerfile
+      target: runtime
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/orionchallenge
+      - SPRING_DATASOURCE_USERNAME=postgres
+      - SPRING_DATASOURCE_PASSWORD=postgrespw
+      - SPRING_JPA_HIBERNATE_DDL_AUTO=update
+    ports:
+      - "8081:8080"
+    depends_on:
+      - db
+  frontend:
+    build:
+      context: ./orion-frontend
+      dockerfile: Dockerfile
+      target: serve
+    ports:
+      - 80:80
+    depends_on:
+      - api
+
+  db: 
+    image: postgres:14.1-alpine
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgrespw
+      - POSTGRES_DB=orionchallenge
+
