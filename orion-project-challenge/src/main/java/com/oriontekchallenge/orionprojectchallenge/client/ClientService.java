@@ -1,12 +1,10 @@
 package com.oriontekchallenge.orionprojectchallenge.client;
 
+import com.oriontekchallenge.orionprojectchallenge.address.Address;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 
 @Service
 public class ClientService {
@@ -41,5 +39,25 @@ public class ClientService {
         else{
             throw new IllegalStateException("Cliente No Existe");
         }
+    }
+
+    public void addAddress(Address address, UUID clientId){
+        Client client = clientRepository.findById(clientId).get();
+
+
+        Set<Address>  lAddress = client.getAddress();
+        lAddress.add(address);
+        client.setAddress(lAddress);
+
+        System.out.println(client);
+
+        clientRepository.save(client);
+    }
+
+    public List<Address> getClientAddress(UUID clientId) {
+        Client client = clientRepository.findById(clientId).get();
+
+
+        return new ArrayList<>(client.getAddress());
     }
 }

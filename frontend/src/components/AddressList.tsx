@@ -1,12 +1,14 @@
 import { useEffect, useState } from 'react';
 import { deleteClient, getAllClients } from '../api/api';
-import { setCid, cid } from '../noteStore';
+import { cid } from '../noteStore';
 
-export const ClientList = () => {
+export const AddressList = () => {
   const [searchInput, setSearchInput] = useState('');
   const [clients, setClients] = useState<any[]>();
 
   useEffect(() => {
+    console.log('hola');
+    console.log(cid);
     const getClients = async () => {
       const res = await getAllClients();
       console.log(res);
@@ -68,15 +70,7 @@ export const ClientList = () => {
                       xmlns='http://www.w3.org/2000/svg'
                     ></svg>
                   </button>{' '}
-                  <a
-                    id={item.id}
-                    href='/address'
-                    onClick={(e) => {
-                      console.log(e.currentTarget.id);
-                      setCid(e.currentTarget.id);
-                    }}
-                    className='inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800'
-                  >
+                  <button className='inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800'>
                     Ver Direcciones
                     <svg
                       aria-hidden='true'
@@ -91,7 +85,7 @@ export const ClientList = () => {
                         clipRule='evenodd'
                       ></path>
                     </svg>
-                  </a>
+                  </button>
                 </div>
               </div>
             );

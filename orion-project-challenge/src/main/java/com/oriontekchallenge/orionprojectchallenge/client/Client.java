@@ -22,7 +22,7 @@ public class Client {
     @Column(unique = true)
     private String email;
 
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "fk_client_id")
     private Set<Address> address;
 
