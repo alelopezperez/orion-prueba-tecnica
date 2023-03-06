@@ -2,7 +2,7 @@
 
 ## Stack de Tecnologia
 
-### Unordered
+###
 
 - Spring Boot (Java)
 - React(typescript)
