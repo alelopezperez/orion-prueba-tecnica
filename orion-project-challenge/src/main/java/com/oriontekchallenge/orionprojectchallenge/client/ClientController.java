@@ -5,9 +5,7 @@ import com.oriontekchallenge.orionprojectchallenge.address.AddressRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 @RestController
 @RequestMapping(path = "api/v1/client/")
@@ -25,7 +23,7 @@ public class ClientController {
        return clientService.getClients();
     }
 
-    @PostMapping("")
+    @PostMapping("create-client")
     public void createNewClient(@RequestBody Client client){
         clientService.createNewClient(client);
     }
@@ -52,4 +50,40 @@ public class ClientController {
 
         return clientService.getClientAddress(id);
     }
+
+    @PostMapping("edit-client")
+    public void editClient(@RequestBody Client client){
+        System.out.println(client);
+
+        Client origClient = clientService.getClient(client.getId());
+
+        origClient.setEmail(client.getEmail());
+        origClient.setFirstName(client.getFirstName());
+        origClient.setLastName(client.getLastName());
+        origClient.setBirthDate(client.getBirthDate());
+
+        clientService.editClient(origClient);
+
+    }
+
+    @PostMapping("get-client")
+    public Client getClient(@RequestBody Map<String,String> json){
+        System.out.println(json);
+        UUID id = UUID.fromString(json.get("id"));
+        return clientService.getClient(id);
+    }
+
+    @PostMapping("delete-address")
+    public void deleteAddress(@RequestBody Map<String,String> json){
+
+        UUID clientId = UUID.fromString(json.get("clientId"));
+        UUID addressId = UUID.fromString(json.get("addressId"));
+
+        clientService.deleteAddress(clientId,addressId);
+
+    }
+
+
+
+
 }

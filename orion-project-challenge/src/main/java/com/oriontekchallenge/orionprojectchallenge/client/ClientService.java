@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class ClientService {
@@ -59,5 +60,34 @@ public class ClientService {
 
 
         return new ArrayList<>(client.getAddress());
+    }
+
+    public void editClient(Client client) {
+
+        clientRepository.save(client);
+    }
+
+    public Client getClient(UUID id){
+        return clientRepository.findById(id).get();
+    }
+
+    public void deleteAddress(UUID clientId, UUID addressId) {
+        var client = clientRepository.findById(clientId).get();
+        var addresses = client.getAddress();
+
+        System.out.println(client.getAddress());
+        System.out.println(addressId);
+        client.setAddress(
+            addresses
+                    .stream()
+                    .filter(item -> !(item.getId().equals(addressId)))
+                    .collect(Collectors.toSet())
+        );
+
+        System.out.println(client.getAddress());
+
+//        clientRepository.save(client);
+
+
     }
 }

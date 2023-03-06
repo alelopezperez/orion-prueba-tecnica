@@ -23,6 +23,7 @@ public class AddressController {
     @PostMapping("delete")
     public void deleteAddress(@RequestBody Map<String,String> json){
         UUID id = UUID.fromString(json.get("addressId"));
+        System.out.println("here");
         addressService.deleteAddress(id);
     }
 
