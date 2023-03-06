@@ -1,14 +1,24 @@
 import { useEffect, useState } from 'react';
-import { deleteClient, getAllClients } from '../api';
+import { useParams } from 'react-router-dom';
+import { ClientType, deleteClient, getAllClients, getClient } from '../api';
 import { Modal } from './Modal';
 import { ModalNewClient } from './ModalNewClient';
+
+type editType = {
+  id: string;
+  firstName: string;
+  lastName: string;
+  birthday: string;
+  em: string;
+};
 
 export const ClientList = () => {
   const [searchInput, setSearchInput] = useState('');
   const [clients, setClients] = useState<any[]>();
   const [showModalAdd, setShowModalAdd] = useState(false);
-
   const [showModalNew, setShowModalNew] = useState(false);
+
+  const [prueba, setPrueba] = useState('asd');
 
   useEffect(() => {
     const getClients = async () => {
@@ -89,11 +99,9 @@ export const ClientList = () => {
                       xmlns='http://www.w3.org/2000/svg'
                     ></svg>
                   </button>{' '}
-                  <button
+                  <a
                     id={item.id}
-                    onClick={async () => {
-                      setShowModalAdd(true);
-                    }}
+                    href={`/${item.id}`}
                     className='inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800'
                   >
                     Editar Cliente
@@ -104,16 +112,7 @@ export const ClientList = () => {
                       viewBox='0 0 20 20'
                       xmlns='http://www.w3.org/2000/svg'
                     ></svg>
-                  </button>
-                  <Modal
-                    id={item.id}
-                    showModal={showModalAdd}
-                    setShowModalAdd={setShowModalAdd}
-                    firstName={item.firstName}
-                    lastName={item.lastName}
-                    birthday={item.birthDate}
-                    em={item.email}
-                  />
+                  </a>
                   {'                                                   '}
                   <a
                     id={item.id}
@@ -140,6 +139,7 @@ export const ClientList = () => {
             );
           })}
       </div>
+      <Modal showModal={showModalAdd} setShowModalAdd={setShowModalAdd} />
     </div>
   );
 };

@@ -27,4 +27,17 @@ public class AddressController {
         addressService.deleteAddress(id);
     }
 
+    @PostMapping("edit")
+    public void editAddress(@RequestBody Address address){
+
+        addressService.editAddress(address);
+    }
+
+    @PostMapping("get")
+    public Address getAddress(@RequestBody Map<String,String> json){
+        UUID id = UUID.fromString(json.get("id"));
+        System.out.println("HEHHREHRHEHRHEK");
+        return addressService.get(id);
+    }
+
 }

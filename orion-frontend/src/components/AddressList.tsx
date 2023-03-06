@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import {
   ClientType,
   deleteAddress,
@@ -8,6 +8,7 @@ import {
   getClient,
   getClientAddress,
 } from '../api';
+import { ModalEditAddress } from './ModalEditAddress';
 import { ModalNewAddress } from './ModalNewAddress';
 
 export const AddressList = () => {
@@ -15,6 +16,7 @@ export const AddressList = () => {
   const [address, setAddress] = useState<any[]>();
   const [client, setClient] = useState<ClientType>();
   const [showModalNew, setShowModalNew] = useState(false);
+  const [showModalEdit, setShowModalEdit] = useState(false);
 
   const id = useParams();
 
@@ -31,7 +33,7 @@ export const AddressList = () => {
       if (id.id !== undefined) {
         console.log('holxa');
         console.log(id);
-        const res = await getClient('f2cd9755-8ac2-4732-991f-1831f7067022');
+        const res = await getClient(id?.id);
         console.log(res);
         setClient(res);
       }
@@ -108,8 +110,7 @@ export const AddressList = () => {
                     id={item.id}
                     onClick={async (e) => {
                       const btId = e.currentTarget.id;
-                      console.log(btId);
-                      await deleteClient(e.currentTarget.id);
+                      deleteAddress(item.id);
                       setAddress(
                         address?.filter((item) => {
                           const id: string = item.id;
@@ -117,7 +118,6 @@ export const AddressList = () => {
                           if (client?.id !== undefined) {
                             console.log(client?.id);
                             console.log(item.id);
-                            deleteAddress(client?.id, item.id);
                           }
                           return !(id === btId);
                         })
@@ -134,8 +134,8 @@ export const AddressList = () => {
                       xmlns='http://www.w3.org/2000/svg'
                     ></svg>
                   </button>{' '}
-                  <button
-                    onClick={() => {}}
+                  <a
+                    href={`${window.location.toString()}/${item.id}`}
                     className='inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800'
                   >
                     Editar
@@ -152,12 +152,17 @@ export const AddressList = () => {
                         clipRule='evenodd'
                       ></path>
                     </svg>
-                  </button>
+                  </a>
                 </div>
               </div>
             );
           })}
       </div>
+
+      <ModalEditAddress
+        showModal={showModalEdit}
+        setShowModal={setShowModalEdit}
+      />
     </div>
   );
 };

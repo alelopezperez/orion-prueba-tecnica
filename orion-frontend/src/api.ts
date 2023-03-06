@@ -1,10 +1,11 @@
 export type ClientType = {
   id: string;
   firstName: string;
-  birtDate: string;
+  birthDate: string;
   lastName: string;
   email: string;
 };
+
 export const getAllClients = async () => {
   return await (
     await fetch('http://localhost/api/v1/client/get-clients', {
@@ -104,7 +105,7 @@ export const createAdress = async (
   });
 };
 
-export const deleteAddress = async (clientId: string, addressId: string) => {
+export const deleteAddress = async (addressId: string) => {
   return await fetch('http://localhost/api/v1/address/delete', {
     method: 'POST',
     headers: {
@@ -113,4 +114,34 @@ export const deleteAddress = async (clientId: string, addressId: string) => {
     },
     body: JSON.stringify({ addressId }),
   });
+};
+
+export const editAddress = async (
+  id: string,
+  street: string,
+  city: string,
+  zipCode: string,
+  country: string
+) => {
+  return await fetch('http://localhost/api/v1/address/edit', {
+    method: 'POST',
+    headers: {
+      'Content-type': 'application/json',
+      Accept: 'application/json',
+    },
+    body: JSON.stringify({ id, street, city, zipCode, country }),
+  });
+};
+
+export const getAddress = async (id: string) => {
+  return await (
+    await fetch('http://localhost/api/v1/address/get', {
+      method: 'POST',
+      headers: {
+        'Content-type': 'application/json',
+        Accept: 'application/json',
+      },
+      body: JSON.stringify({ id }),
+    })
+  ).json();
 };

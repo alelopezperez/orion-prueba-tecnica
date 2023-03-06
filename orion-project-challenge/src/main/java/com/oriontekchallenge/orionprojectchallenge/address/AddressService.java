@@ -1,6 +1,5 @@
 package com.oriontekchallenge.orionprojectchallenge.address;
 
-import com.oriontekchallenge.orionprojectchallenge.client.Client;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -21,6 +20,22 @@ public class AddressService {
     }
 
     public void deleteAddress(UUID id) {
+        System.out.println(id);
         addressRepository.deleteById(id);
+    }
+
+    public void editAddress(Address address) {
+        var origAddress = addressRepository.findById(address.getId()).get();
+
+        origAddress.setStreet(address.getStreet());
+        origAddress.setCity(address.getCity());
+        origAddress.setZipCode(address.getZipCode());
+        origAddress.setCountry(address.getCountry());
+
+        addressRepository.save(origAddress);
+    }
+
+    public Address get(UUID id) {
+        return addressRepository.findById(id).get();
     }
 }

@@ -9,7 +9,9 @@ function App() {
   return (
     <Routes>
       <Route path='/' element={<ClientList />} />
+      <Route path='/:id' element={<ClientList />} />
       <Route path='/address/:id' element={<AddressList />} />
+      <Route path='/address/:id/:adId' element={<AddressList />} />
     </Routes>
   );
 }
